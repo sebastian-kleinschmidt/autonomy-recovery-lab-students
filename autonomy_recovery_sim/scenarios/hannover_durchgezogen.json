@@ -1,0 +1,72 @@
+{
+  "id": "hannover_durchgezogen",
+  "seed": 44,
+  "simulation": {
+    "duration_s": 120.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 3.5,
+    "center_marking": "solid",
+    "assumption_note": "Durchgezogene Mittellinie als Testvariation."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.75,
+    "target_s_m": 180.0,
+    "cruise_speed_mps": 8.0
+  },
+  "actors": [
+    {
+      "id": "blocker",
+      "kind": "car",
+      "s_m": 92.0,
+      "d_m": -1.75,
+      "speed_mps": 0.0,
+      "direction": 1,
+      "description": "A car stands in the own lane with hazard lights on; nobody is at the wheel."
+    }
+  ],
+  "recovery": {
+    "stuck_after_s": 3.0,
+    "max_commands": 16
+  },
+  "remote_assistance": {
+    "available": true,
+    "response_s": 15.0,
+    "instruction": {
+      "type": "PASS_OBSTACLE",
+      "side": "LEFT",
+      "message": "Exception granted: the solid line may be crossed to pass the car. Watch for oncoming traffic."
+    }
+  },
+  "policy": {
+    "allow_solid_exception": false,
+    "allow_shoulder_passing": false
+  },
+  "reference": {
+    "reason": "Durchgezogene Mittellinie und Seitenstreifen sind nicht zum Vorbeifahren freigegeben; der Pkw bleibt stehen. Begrenzt warten ist als Vorbereitung erlaubt. Danach die Leitstelle fragen: Sie erteilt eine Ausnahme für die durchgezogene Linie, und das Fahrzeug fährt mit Blick auf den Gegenverkehr vorbei.",
+    "budget_eur": 200.0,
+    "commands": [
+      "WAIT",
+      "REQUEST_REMOTE_ASSISTANCE"
+    ],
+    "sequence": [
+      [
+        "REQUEST_REMOTE_ASSISTANCE"
+      ],
+      [
+        "PASS_OBSTACLE"
+      ]
+    ],
+    "outcome": "remote_resolved",
+    "hints": [
+      "`get_blocker`: Pkw mit Warnblinker, niemand am Steuer → Warten löst nichts.",
+      "`get_blocker`: `center_marking` `solid`, `shoulder_passing_allowed` false → Vorbeifahren ist ohne Ausnahme verboten.",
+      "Selbstauskunft: „A solid center line does not allow passing.“",
+      "`get_mission_context`: `remote_assistance_available` true → Leitstelle fragen (`REQUEST_REMOTE_ASSISTANCE`) und ihre Anweisung (`PASS_OBSTACLE` mit Ausnahme) befolgen."
+    ]
+  }
+}

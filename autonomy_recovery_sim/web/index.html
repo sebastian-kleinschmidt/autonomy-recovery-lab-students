@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AutonomyRecoverySim · Live-Fahrt</title>
+  <script>
+    window.__autonomyRecoverySimEarlyRunRequested = false;
+    window.__autonomyRecoverySimEarlyRunCapture = function (event) {
+      const button = event.target.closest ? event.target.closest("#runButton") : null;
+      if (!button) return;
+      window.__autonomyRecoverySimEarlyRunRequested = true;
+      button.querySelector(".action-label").textContent = "Start wird vorbereitet …";
+      button.classList.add("is-loading");
+      button.setAttribute("aria-busy", "true");
+    };
+    document.addEventListener("click", window.__autonomyRecoverySimEarlyRunCapture, true);
+  </script>
+  <link rel="stylesheet" href="/styles.css?v=20261011-9">
+</head>
+<body>
+  <header class="topbar">
+    <div class="identity">
+      <h1>Autonomy<wbr>RecoverySim</h1>
+      <div class="experiment-context">
+        <span id="scenarioId">Szenario wird geladen</span>
+        <a id="settingsLink" href="#experimentSettings" title="Agenten-Wahrnehmung ändern">Versuchseinstellungen</a>
+        <span id="batchPosition" hidden></span>
+        <span id="batchRatings" class="batch-ratings" aria-label="Bewertung der abgeschlossenen Szenarien" hidden>
+          <span class="rating-chip positive"><b id="ratingPositive">0</b> positiv</span>
+          <span class="rating-chip neutral"><b id="ratingNeutral">0</b> neutral</span>
+          <span class="rating-chip negative"><b id="ratingNegative">0</b> negativ</span>
+        </span>
+      </div>
+    </div>
+    <div class="run-state">
+      <div role="status"><span id="runDot" class="run-dot" aria-hidden="true"></span><span id="runLabel">Verbinde …</span></div>
+      <a id="recoveryLink" href="#recoveryConsole" hidden>Zur Entscheidung</a>
+    </div>
+    <div class="control-row primary-actions" role="group" aria-label="Simulation steuern">
+      <button id="runButton" class="primary is-loading" type="button" aria-busy="true" title="Simulation starten">
+        <span class="action-symbol" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path data-run-icon="start" d="M6 3.5 16 10 6 16.5Z" fill="currentColor"/><path data-run-icon="pause" d="M5 4h3.5v12H5zM11.5 4H15v12h-3.5z" fill="currentColor" hidden/></svg></span>
+        <span class="action-label">Verbinde …</span>
+      </button>
+      <button id="stepButton" type="button" title="Simulation um einen Zeitschritt vorwärts">
+        <span class="action-symbol" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="m4 3.5 9 6.5-9 6.5ZM14.5 4H17v12h-2.5z" fill="currentColor"/></svg></span>
+        <span class="action-label">Einzelschritt</span>
+      </button>
+      <button id="resetButton" type="button" title="Fahrt zurücksetzen und pausieren">
+        <span class="action-symbol" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M4.5 7A6 6 0 1 1 4 11M4.5 3v4H8.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="action-label">Zurücksetzen</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="stage" aria-label="Live-Simulation">
+      <div class="scene-toolbar">
+        <div class="view-switch" role="group" aria-label="Ansicht wählen">
+          <button id="perspectiveView" class="active" type="button" aria-pressed="true">3D Fahrt</button>
+          <button id="mapView" type="button" aria-pressed="false">Top-down</button>
+        </div>
+        <div id="perspectiveTools" class="map-tools" role="group" aria-label="3D-Kamerasteuerung">
+          <button id="cameraZoomIn" type="button" aria-label="3D-Ansicht vergrößern" title="Vergrößern">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg>
+          </button>
+          <span id="cameraZoom" aria-live="polite">100 %</span>
+          <button id="cameraZoomOut" type="button" aria-label="3D-Ansicht verkleinern" title="Verkleinern">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12"/></svg>
+          </button>
+          <button id="resetPerspective" type="button" aria-label="3D-Kamera zurücksetzen" title="Originalansicht wiederherstellen">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.1 6.4A6 6 0 1 1 4 12"/><path d="M3 4v4h4"/></svg>
+          </button>
+        </div>
+        <div id="mapTools" class="map-tools" role="group" aria-label="Kartensteuerung" hidden>
+          <button id="zoomIn" type="button" aria-label="Karte vergrößern" title="Vergrößern">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg>
+          </button>
+          <span id="mapZoom" aria-live="polite">800 %</span>
+          <button id="zoomOut" type="button" aria-label="Karte verkleinern" title="Verkleinern">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12"/></svg>
+          </button>
+          <button id="resetMap" class="active" type="button" aria-label="Ego-Fahrzeug zentriert halten" aria-pressed="true" title="Ego-Fahrzeug wird verfolgt">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 2v3M10 15v3M2 10h3M15 10h3"/></svg>
+          </button>
+        </div>
+        <button id="perceptionToggle" class="perception-toggle active" type="button" aria-pressed="true" aria-controls="perceptionPanel">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 14.5a8 8 0 0 1 14 0M5.7 12.2a5.2 5.2 0 0 1 8.6 0M8.2 10.2a2.3 2.3 0 0 1 3.6 0"/><circle cx="10" cy="15.2" r="1"/></svg>
+          Sensorik
+        </button>
+      </div>
+      <div id="sceneFrame" class="scene-frame">
+        <canvas id="scene" aria-label="Perspektivische Fahransicht der Wilhelm-Busch-Straße"></canvas>
+        <span id="ratingBadge" class="rating-badge" role="status" hidden></span>
+        <div class="map-label">
+          <span id="roadName">Wilhelm-Busch-Straße</span>
+          <a id="mapSource" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap-Mitwirkende</a>
+        </div>
+      </div>
+      <section id="perceptionPanel" class="perception-panel" aria-label="Wahrnehmungsdiagnose">
+        <div class="perception-summary">
+          <strong id="perceptionState">Initialisierung</strong>
+          <div class="perception-metrics">
+            <span>Freie Sicht<strong id="visibleRange">–</strong></span>
+            <span>Objekte<strong id="detectedCount">–</strong></span>
+          </div>
+        </div>
+        <div class="perception-meter" aria-hidden="true"><i id="visibilityMeter"></i></div>
+        <details class="sensor-details">
+          <summary>Diagnose und Legende</summary>
+          <p>Aktualisierung: <span id="perceptionRate">2 Hz</span></p>
+          <p id="perceptionHint">Durchscheinende Objekte zeigen nur die Ground Truth.</p>
+          <div class="legend" aria-label="Legende">
+            <span><i class="swatch sensor-area"></i>Sichtfläche</span>
+            <span><i class="swatch visible"></i>Sichtbar</span>
+            <span><i class="swatch partial"></i>Teilweise</span>
+            <span><i class="swatch tracked"></i>Track</span>
+            <span><i class="swatch occluded"></i>Verdeckt</span>
+          </div>
+        </details>
+      </section>
+    </section>
+
+    <aside class="console" aria-label="Versuchssteuerung">
+      <section id="ratingPanel" class="rating-panel" aria-label="Bewertung des Laufs" aria-live="polite" hidden>
+        <strong id="ratingTitle"></strong>
+        <ul id="ratingReasons"></ul>
+      </section>
+      <section id="batchStatus" class="batch-status" aria-label="Batch-Fortschritt" hidden>
+        <h2 id="batchTitle">Batch</h2>
+        <p id="batchProgressText" class="console-hint" role="status"></p>
+        <progress id="batchProgress" value="0" max="1" aria-label="Abgeschlossene Szenarien"></progress>
+        <p id="batchLastResult" class="console-hint"></p>
+        <p id="batchSummary" class="console-hint"></p>
+        <div id="batchReportLinks" class="batch-report-links" hidden>
+          <a id="batchReport" target="_blank" rel="noreferrer">Report öffnen</a>
+          <a id="batchData" download>Rohdaten herunterladen</a>
+        </div>
+        <p id="batchReportError" class="console-error" role="alert" hidden></p>
+        <button id="retryReportButton" type="button" hidden>Report erneut erstellen</button>
+      </section>
+      <section class="readout" aria-label="Fahrzustand">
+        <div class="speed"><strong id="speed">0</strong><span>km/h</span></div>
+        <dl>
+          <div><dt>Zeit</dt><dd id="time">0,0 s</dd></div>
+          <div><dt>Position</dt><dd id="position">0,0 m</dd></div>
+          <div><dt>Mindestabstand</dt><dd id="clearance">–</dd></div>
+        </dl>
+      </section>
+      <section class="recovery-status" aria-label="Recovery-Status">
+        <h2 id="decision">Noch nicht ausgelöst</h2>
+        <span id="decisionBadge" class="badge waiting">wartet</span>
+        <p id="reason">Der Stillstandsmonitor beobachtet die Fahrt.</p>
+      </section>
+      <section id="vlaSource" class="vla-source" aria-label="Fahrstack-Selbstauskunft" hidden>
+        <button id="vlaToggle" type="button" aria-controls="vlaPanel" aria-expanded="false" aria-describedby="vlaChoiceHint" title="Zeigt Begründung und Trajektorie; ändert keine Agentenwerkzeuge." disabled>Selbstauskunft anzeigen</button>
+        <p id="vlaChoiceHint" class="console-hint">Modellausgabe gegen Tracker und Kamera prüfen (ab Sprint 3).</p>
+        <section id="vlaPanel" class="vla-panel" aria-label="VLA-Fahrstack" hidden>
+          <h2 id="vlaMeta">–</h2>
+          <span id="vlaConfidence" class="badge waiting">–</span>
+          <p id="vlaReasoning" class="vla-reasoning"></p>
+          <p id="vlaDetail" class="vla-detail"></p>
+        </section>
+      </section>
+      <section id="recoveryConsole" class="recovery-console" aria-label="Recovery Console" tabindex="-1" hidden>
+        <div class="section-title">
+          <h2 id="consoleTitle">Warte auf Deadlock</h2>
+          <span id="consoleBudget" class="console-budget" title="Werkzeugaufrufe und Entscheidungsversuche dieser Runde"></span>
+        </div>
+        <div id="lastCommand" class="last-command" role="status" hidden>
+          <span class="last-label">Letzter Befehl</span>
+          <strong id="lastCommandTitle"></strong>
+          <p id="lastCommandText"></p>
+        </div>
+        <div id="remoteInstruction" class="remote-instruction" role="alert" hidden>
+          <span class="remote-label">Antwort der Leitstelle</span>
+          <strong id="remoteType"></strong>
+          <p id="remoteMessage"></p>
+        </div>
+        <p id="consoleHint" class="console-hint"></p>
+        <fieldset id="consoleForm" aria-label="Recovery-Entscheidung" hidden>
+          <div class="console-block">
+            <div class="console-row">
+              <strong>1 · Lage erfassen</strong>
+              <button id="consoleEvidence" type="button" title="Ruft get_blocker, check_oncoming_traffic, check_rear_traffic und check_vulnerable_road_users auf">Lageprüfungen abfragen</button>
+            </div>
+            <ul id="consoleTools" class="tool-list"></ul>
+            <p class="console-hint">Erklärung beim Darüberfahren. Ergebnisse stehen aufklappbar unter dem Werkzeug.</p>
+          </div>
+          <div class="console-block">
+            <strong>2 · Befehl wählen</strong>
+            <label class="field"><span>Befehl</span><select id="consoleCommand"></select></label>
+            <p id="consoleCommandInfo" class="console-hint"></p>
+            <div id="consoleParams" class="param-grid"></div>
+            <label class="field"><span>Begründung</span><input id="consoleReason" type="text" maxlength="200" value="Manuelle Demonstration"></label>
+            <p id="consoleEvidenceHint" class="console-hint"></p>
+            <button id="consoleSubmit" class="primary" type="button">Befehl senden</button>
+            <p id="consoleError" class="console-error" role="alert" hidden></p>
+          </div>
+        </fieldset>
+      </section>
+
+      <section id="experimentSettings" class="perception-settings" aria-label="Versuchseinstellungen" tabindex="-1">
+        <h2>Versuchseinstellungen</h2>
+        <p class="console-hint">Der Agent prüft die Sicherheit seiner Entscheidungen. Verkehrsregeln, Ausführungsgrenzen und Notbremse bleiben aktiv.</p>
+        <label class="speed-factor" for="speedFactor">
+          <span>Simulationsfaktor</span>
+          <select id="speedFactor">
+            <option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option>
+          </select>
+        </label>
+        <details class="settings-help">
+          <summary>Wahrnehmung und Ausführung erklärt</summary>
+          <p><strong>Wahrnehmung:</strong> Der Agent sieht eine Objektliste mit Messunsicherheit (<code>get_tracked_objects</code>), die Sichtabdeckung und die Karte. Daraus rechnet das Fahrzeug vier Lageprüfungen (<code>get_blocker</code>, <code>check_oncoming_traffic</code>, <code>check_rear_traffic</code>, <code>check_vulnerable_road_users</code>). Was verdeckt ist, sehen beide nicht.</p>
+          <p><strong>Selbstauskunft des Fahrstacks:</strong> Begründung und geplante Trajektorie (<code>get_vla_output</code>, <code>get_camera_caption</code>). Sie ist eine Modellausgabe; ab Sprint 3 kann sie sich irren und wird gegen Objektliste und Kamera geprüft. Die Anzeige ändert keine Agentenwerkzeuge.</p>
+          <p><strong>Ausführung:</strong> <code>PASS_OBSTACLE</code> schert zum Schauen aus, hält bei neuer Lage an und wartet auf eine Lücke im sichtbaren Verkehr. Verkehrsregeln, Manövergrenzen und Notbremse bleiben aktiv. Fehlende Belege, Sicherheitsbedenken und Verstöße gegen die Betriebsregeln werden als Warnung protokolliert; der Lauf besteht dann nicht.</p>
+          <p><strong>Leitstelle:</strong> antwortet mit einer Anweisung (<code>remote_instruction</code>), die befolgt werden muss.</p>
+        </details>
+      </section>
+      <details class="events secondary-section">
+        <summary>Ereignisse <span id="eventCount" class="event-count">0</span></summary>
+        <ol id="eventList"><li class="empty">Noch keine Ereignisse.</li></ol>
+      </details>
+      <details class="about secondary-section">
+        <summary>Über den Simulator</summary>
+        <p class="console-hint">Wissenschaftlicher Demonstrator · keine Rechtsauskunft.</p>
+      </details>
+    </aside>
+  </main>
+  <dialog id="resultDialog" class="result-dialog" aria-labelledby="resultTitle">
+    <div id="resultHead" class="result-head">
+      <span class="result-label">Szenario beendet</span>
+      <h2 id="resultTitle"></h2>
+    </div>
+    <ul id="resultReasons" class="result-reasons"></ul>
+    <div id="resultCompare" class="result-compare"></div>
+    <div class="result-actions">
+      <span id="resultNext" class="console-hint"></span>
+      <button id="resultOk" class="primary" type="button">OK</button>
+    </div>
+  </dialog>
+  <script src="/vehicle_asset.js?v=20260921-9"></script>
+  <script src="/app.js?v=20261011-9"></script>
+</body>
+</html>

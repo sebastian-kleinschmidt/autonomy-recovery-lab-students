@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/autonomy-recovery-sim/agent_observation.schema.json",
+  "title": "AutonomyRecoverySim Agent Session Context 3.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "time_s",
+    "ego",
+    "mission",
+    "available_tools",
+    "budgets",
+    "available_commands",
+    "additional_information",
+    "commands_used",
+    "max_commands"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "4.0"
+    },
+    "scenario_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "time_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "ego": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "s_m",
+        "d_m",
+        "speed_mps",
+        "stopped_for_s"
+      ],
+      "properties": {
+        "s_m": {
+          "type": "number"
+        },
+        "d_m": {
+          "type": "number"
+        },
+        "speed_mps": {
+          "type": "number",
+          "minimum": 0
+        },
+        "stopped_for_s": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "mission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_s_m",
+        "normal_lane_d_m",
+        "traffic_side"
+      ],
+      "properties": {
+        "target_s_m": {
+          "type": "number"
+        },
+        "normal_lane_d_m": {
+          "type": "number"
+        },
+        "traffic_side": {
+          "const": "right"
+        }
+      }
+    },
+    "available_tools": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "arguments"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "arguments": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_tool_calls",
+        "max_decision_attempts"
+      ],
+      "properties": {
+        "max_tool_calls": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_decision_attempts": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "available_commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "command",
+          "category",
+          "description",
+          "parameter_schema",
+          "required_parameters",
+          "ends_episode",
+          "cost_note"
+        ]
+      }
+    },
+    "additional_information": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "topic",
+          "time_s",
+          "result"
+        ]
+      }
+    },
+    "commands_used": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "max_commands": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "driving_stack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "perception_interface",
+        "note"
+      ],
+      "properties": {
+        "type": {
+          "const": "VLA_MOCK"
+        },
+        "perception_interface": {
+          "enum": [
+            "structured",
+            "vla"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "difficulty": {
+      "description": "Schwierigkeitsstufe dieses Szenarios.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level"
+      ],
+      "properties": {
+        "level": {
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ]
+        }
+      }
+    },
+    "trigger": {
+      "description": "Ausloeser der Sitzung: DEADLOCK, SITUATION_CHANGED (Vorbeifahren haelt ausgeschert), REMOTE_INSTRUCTION oder IMPACT_DETECTED.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "DEADLOCK",
+            "SITUATION_CHANGED",
+            "REMOTE_INSTRUCTION",
+            "IMPACT_DETECTED"
+          ]
+        }
+      }
+    },
+    "remote_instruction": {
+      "description": "Offene Anweisung der Leitstelle; sie ist zu befolgen.",
+      "type": "object",
+      "required": [
+        "type",
+        "message"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "PROCEED",
+            "PASS_OBSTACLE",
+            "WAIT",
+            "REPLAN_ROUTE",
+            "END_TRIP"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "side": {
+          "enum": [
+            "LEFT",
+            "RIGHT"
+          ]
+        },
+        "expected_wait_s": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

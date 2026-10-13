@@ -1,0 +1,1074 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/autonomy-recovery-sim/scenario.schema.json",
+  "title": "AutonomyRecoverySim Scenario 1.2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "simulation",
+    "road",
+    "ego",
+    "actors",
+    "reference"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "traffic_side": {
+      "const": "right"
+    },
+    "simulation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "duration_s",
+        "dt_s"
+      ],
+      "properties": {
+        "duration_s": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "dt_s": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "road": {
+      "type": "object",
+      "required": [
+        "map_file",
+        "lane_width_m",
+        "center_marking"
+      ],
+      "properties": {
+        "map_file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context_file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lane_width_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "center_marking": {
+          "enum": [
+            "dashed",
+            "solid"
+          ]
+        },
+        "assumption_note": {
+          "type": "string"
+        },
+        "shoulder_m": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "ego": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_s_m",
+        "lane_d_m",
+        "target_s_m",
+        "cruise_speed_mps"
+      ],
+      "properties": {
+        "start_s_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "lane_d_m": {
+          "type": "number",
+          "exclusiveMaximum": 0
+        },
+        "target_s_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "cruise_speed_mps": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "actors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "s_m",
+          "d_m",
+          "speed_mps",
+          "direction",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "car",
+              "van",
+              "truck",
+              "bus",
+              "bicycle",
+              "pedestrian",
+              "animal",
+              "beacon",
+              "trash_bin",
+              "debris",
+              "train",
+              "barrier"
+            ]
+          },
+          "s_m": {
+            "type": "number",
+            "minimum": 0
+          },
+          "d_m": {
+            "type": "number"
+          },
+          "speed_mps": {
+            "type": "number",
+            "minimum": 0
+          },
+          "direction": {
+            "enum": [
+              -1,
+              1
+            ]
+          },
+          "length_m": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "width_m": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "behavior": {
+            "enum": [
+              "lane_follow",
+              "parked",
+              "overtaking",
+              "crossing"
+            ]
+          },
+          "motion_start_time_s": {
+            "type": "number",
+            "minimum": 0
+          },
+          "target_speed_mps": {
+            "type": "number",
+            "minimum": 0
+          },
+          "exit_d_m": {
+            "type": "number"
+          },
+          "confidence": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400
+          },
+          "description_source": {
+            "enum": [
+              "direct",
+              "camera"
+            ],
+            "description": "direct: auch in get_blocker; camera: nur ueber get_camera_caption"
+          },
+          "phantom": {
+            "type": "boolean"
+          },
+          "obstacle_profile": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "height_m",
+              "material",
+              "deformability",
+              "sharp_edges",
+              "liquid",
+              "assessment_confidence"
+            ],
+            "properties": {
+              "height_m": {
+                "type": "number",
+                "minimum": 0
+              },
+              "material": {
+                "enum": [
+                  "CARDBOARD",
+                  "FOAM",
+                  "PLASTIC",
+                  "RUBBER",
+                  "WOOD",
+                  "METAL",
+                  "GLASS",
+                  "MIXED",
+                  "UNKNOWN"
+                ]
+              },
+              "deformability": {
+                "enum": [
+                  "HIGH",
+                  "MEDIUM",
+                  "LOW",
+                  "UNKNOWN"
+                ]
+              },
+              "sharp_edges": {
+                "type": "boolean"
+              },
+              "liquid": {
+                "type": "boolean"
+              },
+              "assessment_confidence": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              }
+            }
+          },
+          "triggers": {
+            "description": "Verhaltensaenderung, sobald das Ego etwas Bestimmtes tut (triggers.py). Jeder Ausloeser feuert einmal.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "when",
+                "then",
+                "hint"
+              ],
+              "properties": {
+                "when": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "minProperties": 1,
+                  "properties": {
+                    "time_s": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "gte"
+                      ],
+                      "properties": {
+                        "gte": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "ego_s_m": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "gte"
+                      ],
+                      "properties": {
+                        "gte": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "ego_lateral_offset_m": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "gte"
+                      ],
+                      "properties": {
+                        "gte": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "since_first_session_s": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "gte"
+                      ],
+                      "properties": {
+                        "gte": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "since_horn_s": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "gte"
+                      ],
+                      "properties": {
+                        "gte": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "ego_phase": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "then": {
+                  "type": "object",
+                  "minProperties": 1,
+                  "maxProperties": 1,
+                  "additionalProperties": false,
+                  "properties": {
+                    "start_motion": {
+                      "type": "object",
+                      "required": [
+                        "target_speed_mps"
+                      ],
+                      "properties": {
+                        "target_speed_mps": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        }
+                      }
+                    },
+                    "stop": {
+                      "type": "object"
+                    },
+                    "cross": {
+                      "type": "object",
+                      "required": [
+                        "exit_d_m",
+                        "speed_mps"
+                      ],
+                      "properties": {
+                        "exit_d_m": {
+                          "type": "number"
+                        },
+                        "speed_mps": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        }
+                      }
+                    }
+                  }
+                },
+                "hint": {
+                  "type": "object",
+                  "required": [
+                    "tool",
+                    "why"
+                  ],
+                  "properties": {
+                    "tool": {
+                      "type": "string"
+                    },
+                    "why": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dependentRequired": {
+          "motion_start_time_s": [
+            "target_speed_mps"
+          ],
+          "target_speed_mps": [
+            "motion_start_time_s"
+          ],
+          "exit_d_m": [
+            "motion_start_time_s"
+          ]
+        }
+      }
+    },
+    "recovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stuck_after_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max_commands": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_tool_calls": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "visibility_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "perception": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "range_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "horizontal_fov_deg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 360
+        },
+        "track_memory_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "min_detectable_fraction": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "noise": {
+          "description": "Messunsicherheit der Objektliste.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "position_std_m": {
+              "type": "number",
+              "minimum": 0
+            },
+            "position_std_per_10m_m": {
+              "type": "number",
+              "minimum": 0
+            },
+            "velocity_std_mps": {
+              "type": "number",
+              "minimum": 0
+            },
+            "yaw_std_rad": {
+              "type": "number",
+              "minimum": 0
+            },
+            "class_confusion": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "dropout_probability": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "false_positive_rate_hz": {
+              "type": "number",
+              "minimum": 0
+            },
+            "radar_through_occluders": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "allow_solid_exception": {
+          "type": "boolean"
+        },
+        "allow_shoulder_passing": {
+          "type": "boolean",
+          "default": false,
+          "description": "Explizite Szenariofreigabe zum Vorbeifahren auf dem Seitenstreifen; sicheres Halten mit PULL_OVER bleibt davon unabhaengig."
+        },
+        "minimum_visibility_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "minimum_passing_clearance_m": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "required": [
+        "reason"
+      ],
+      "properties": {
+        "command": {
+          "enum": [
+            "NONE",
+            "WAIT",
+            "HONK",
+            "PASS_OBSTACLE",
+            "ABORT_TO_LANE",
+            "CROSS_LOW_RISK_OBJECT",
+            "REVERSE_SHORT",
+            "REPLAN_ROUTE",
+            "PULL_OVER",
+            "DROP_PASSENGER",
+            "SAFE_STOP",
+            "RETURN_HOME",
+            "REQUEST_REMOTE_ASSISTANCE",
+            "RESUME",
+            "SECURE_SCENE",
+            "REPORT_INCIDENT"
+          ]
+        },
+        "commands": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "NONE",
+              "WAIT",
+              "HONK",
+              "PASS_OBSTACLE",
+              "ABORT_TO_LANE",
+              "CROSS_LOW_RISK_OBJECT",
+              "REVERSE_SHORT",
+              "REPLAN_ROUTE",
+              "PULL_OVER",
+              "DROP_PASSENGER",
+              "SAFE_STOP",
+              "RETURN_HOME",
+              "REQUEST_REMOTE_ASSISTANCE",
+              "RESUME",
+              "SECURE_SCENE",
+              "REPORT_INCIDENT"
+            ]
+          }
+        },
+        "outcome": {
+          "enum": [
+            "aborted",
+            "incident_reported",
+            "liberated",
+            "not_triggered",
+            "passenger_dropped",
+            "remote_resolved",
+            "rerouted",
+            "resolved",
+            "returned_home",
+            "safe_stopped",
+            "waiting"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "budget_eur": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sequence": {
+          "description": "Loesungsweg: geordnete Schritte, je Schritt gleichwertige Befehle. Ein Schritt zaehlt nur mit einem erfolgreichen Befehl (status SUCCEEDED) nach dem vorigen Schritt. Das Szenario besteht nur mit vollstaendigem Weg.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "WAIT",
+                "HONK",
+                "PASS_OBSTACLE",
+                "ABORT_TO_LANE",
+                "CROSS_LOW_RISK_OBJECT",
+                "REVERSE_SHORT",
+                "REPLAN_ROUTE",
+                "PULL_OVER",
+                "DROP_PASSENGER",
+                "SAFE_STOP",
+                "RETURN_HOME",
+                "REQUEST_REMOTE_ASSISTANCE",
+                "RESUME",
+                "SECURE_SCENE",
+                "REPORT_INCIDENT"
+              ]
+            }
+          }
+        },
+        "paths": {
+          "description": "Alternative vollstaendige Loesungswege. Erfolgreiche Schritte in Reihenfolge und der Endzustand muessen zu derselben Alternative passen. Ersetzt command, commands, sequence und outcome.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "sequence",
+              "outcome"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "\\S"
+              },
+              "sequence": {
+                "$ref": "#/properties/reference/properties/sequence"
+              },
+              "outcome": {
+                "$ref": "#/properties/reference/properties/outcome"
+              }
+            }
+          }
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Woran die richtige Handlung erkennbar ist: Quelle, Befund, Schluss. Nur für Lehrende (LOESUNGEN.md)."
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "paths"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "command"
+                ]
+              },
+              {
+                "required": [
+                  "commands"
+                ]
+              },
+              {
+                "required": [
+                  "sequence"
+                ]
+              },
+              {
+                "required": [
+                  "outcome"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "not": {
+            "required": [
+              "paths"
+            ]
+          },
+          "anyOf": [
+            {
+              "required": [
+                "command"
+              ]
+            },
+            {
+              "required": [
+                "commands"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "mission": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "PASSENGER_TRANSPORT",
+            "EMPTY_REPOSITIONING"
+          ]
+        },
+        "passengers": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hub_available": {
+          "type": "boolean"
+        },
+        "hub_return_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max_recovery_time_s": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "planned_stop_s_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "planned_stop_duration_s": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "blocked": {
+          "type": "boolean"
+        },
+        "alternative_available": {
+          "type": "boolean"
+        },
+        "detour_cost_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "reverse_required_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "map_stale": {
+          "type": "boolean"
+        },
+        "turn_required": {
+          "type": "boolean",
+          "description": "Alternativroute beginnt hinter dem Fahrzeug: REPLAN_ROUTE wendet erst."
+        }
+      }
+    },
+    "remote_assistance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "available": {
+          "type": "boolean"
+        },
+        "response_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "instruction": {
+          "description": "Antwort der Leitstelle: \"auto\" (die Leitstelle beurteilt die Lage selbst) oder eine feste Anweisung.",
+          "oneOf": [
+            {
+              "const": "auto"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "message"
+              ],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "PROCEED",
+                    "PASS_OBSTACLE",
+                    "WAIT",
+                    "REPLAN_ROUTE",
+                    "END_TRIP"
+                  ]
+                },
+                "message": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "side": {
+                  "enum": [
+                    "LEFT",
+                    "RIGHT"
+                  ]
+                },
+                "clears": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Akteure, die die Leitstelle räumen lässt (PROCEED sofort, WAIT nach after_s)."
+                },
+                "control_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Ausgefallene Signale, die die Leitstelle überbrückt (PROCEED)."
+                },
+                "after_s": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Nach so vielen Sekunden ist die Räumung bei WAIT erledigt."
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "faults": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "tool"
+            ],
+            "properties": {
+              "type": {
+                "const": "tool_timeout"
+              },
+              "tool": {
+                "type": "string"
+              },
+              "failures": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "frozen_at_s"
+            ],
+            "properties": {
+              "type": {
+                "const": "stale_data"
+              },
+              "frozen_at_s": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          }
+        ]
+      }
+    },
+    "sensors": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "CAMERA": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "AVAILABLE",
+                "DEGRADED",
+                "UNAVAILABLE"
+              ]
+            },
+            "quality": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "LIDAR": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "AVAILABLE",
+                "DEGRADED",
+                "UNAVAILABLE"
+              ]
+            },
+            "quality": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "LOCALIZATION": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "AVAILABLE",
+                "DEGRADED",
+                "UNAVAILABLE"
+              ]
+            },
+            "quality": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        }
+      }
+    },
+    "traffic_controls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "s_m",
+          "schedule"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "enum": [
+              "TRAFFIC_LIGHT",
+              "RAILWAY_CROSSING"
+            ]
+          },
+          "s_m": {
+            "type": "number",
+            "minimum": 0
+          },
+          "schedule": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "state",
+                "until_s"
+              ],
+              "properties": {
+                "state": {
+                  "enum": [
+                    "RED",
+                    "YELLOW",
+                    "GREEN",
+                    "DARK",
+                    "OPEN",
+                    "CLOSED"
+                  ]
+                },
+                "until_s": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "vla": {
+      "description": "Optionaler VLA-Fahrstack-Mock (an NVIDIA Alpamayo angelehnt). Ohne diesen Block gibt es keine VLA-Werkzeuge.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "seed": {
+          "type": "integer"
+        },
+        "latency_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "perception_interface": {
+          "enum": [
+            "structured",
+            "vla"
+          ]
+        },
+        "faults": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "HALLUCINATED_CAUSE",
+                  "REASONING_ACTION_MISMATCH",
+                  "VAGUE_CAUSE",
+                  "OVERCONFIDENT"
+                ]
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "actor_id": {
+                "type": "string"
+              },
+              "from_s": {
+                "type": "number",
+                "minimum": 0
+              },
+              "until_s": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "difficulty": {
+      "description": "Optionale Schwierigkeit. Ohne Block gilt Stufe A. Das Ausfuehrungsverhalten ist fest; der Agent arbeitet immer mit der Objektliste.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ]
+        }
+      }
+    }
+  }
+}

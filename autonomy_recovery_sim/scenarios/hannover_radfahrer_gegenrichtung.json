@@ -1,0 +1,66 @@
+{
+  "id": "hannover_radfahrer_gegenrichtung",
+  "seed": 64,
+  "simulation": {
+    "duration_s": 70.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 3.5,
+    "center_marking": "dashed",
+    "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.75,
+    "target_s_m": 180.0,
+    "cruise_speed_mps": 8.0
+  },
+  "actors": [
+    {
+      "id": "blocker",
+      "kind": "car",
+      "s_m": 92.0,
+      "d_m": -1.75,
+      "speed_mps": 0.0,
+      "direction": 1,
+      "description": "A car stands in the own lane with hazard lights on; nobody is at the wheel."
+    },
+    {
+      "id": "radfahrer",
+      "kind": "bicycle",
+      "s_m": 165.0,
+      "d_m": 1.75,
+      "speed_mps": 4.0,
+      "direction": -1,
+      "length_m": 1.8,
+      "width_m": 0.6,
+      "description": "A cyclist approaches in the oncoming lane."
+    }
+  ],
+  "recovery": {
+    "stuck_after_s": 3.0
+  },
+  "reference": {
+    "command": "WAIT",
+    "sequence": [
+      [
+        "WAIT"
+      ],
+      [
+        "PASS_OBSTACLE"
+      ]
+    ],
+    "outcome": "liberated",
+    "budget_eur": 60.0,
+    "reason": "Der Pkw bleibt stehen, aber auf der Gegenspur kommt ein Radfahrer. Ihn vorbeilassen, dann vorbeifahren.",
+    "hints": [
+      "`get_blocker` und Kamera: Pkw mit Warnblinker, niemand am Steuer → am Ende muss vorbeigefahren werden.",
+      "`get_tracked_objects`: Fahrrad auf der Gegenspur, kommt entgegen; `check_oncoming_traffic`: Konflikt → jetzt nicht ausscheren.",
+      "Selbstauskunft: „Oncoming traffic … leaves no gap to pass“ → `WAIT`.",
+      "Nach dem Warten: kein Konflikt mehr → `PASS_OBSTACLE` LEFT."
+    ]
+  }
+}

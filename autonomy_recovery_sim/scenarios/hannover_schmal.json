@@ -1,0 +1,54 @@
+{
+  "id": "hannover_schmal",
+  "seed": 48,
+  "simulation": {
+    "duration_s": 75.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 2.75,
+    "center_marking": "dashed",
+    "assumption_note": "Schmale Wohnstraße (2 × 2,75 m); Spurbreite ist eine Szenarioannahme."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.375,
+    "target_s_m": 180.0,
+    "cruise_speed_mps": 8.0
+  },
+  "actors": [
+    {
+      "id": "blocker",
+      "kind": "truck",
+      "s_m": 92.0,
+      "d_m": -0.7,
+      "speed_mps": 0.0,
+      "direction": 1,
+      "length_m": 9.0,
+      "width_m": 2.55,
+      "behavior": "lane_follow",
+      "motion_start_time_s": 24.0,
+      "target_speed_mps": 5.0,
+      "description": "A refuse truck stands in the middle of the narrow residential street. The workers hook in the last bins and step onto the running board."
+    }
+  ],
+  "policy": {
+    "minimum_passing_clearance_m": 0.5,
+    "allow_shoulder_passing": false
+  },
+  "recovery": {
+    "stuck_after_s": 3.0
+  },
+  "reference": {
+    "command": "WAIT",
+    "outcome": "resolved",
+    "reason": "Neben dem Müllwagen ist für das Fahrzeug kein Platz. Die Müllabfuhr ist gleich fertig und fährt weiter: warten.",
+    "hints": [
+      "`get_blocker`: `clearance_m.left_with_oncoming_lane` ≈ 1,96 m < `ego_width` 1,99 m → links passt das Fahrzeug nicht vorbei.",
+      "`get_blocker`: `shoulder_passing_allowed` false → rechts ist verboten.",
+      "Kamera: „The workers hook in the last bins and step onto the running board“ → der Müllwagen fährt gleich weiter → `WAIT`."
+    ]
+  }
+}

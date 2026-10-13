@@ -1,0 +1,64 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Adenauerallee, Hannover (am Erlebnis-Zoo)",
+        "osm_way_id": 42747972,
+        "osm_way_ids": [
+          42747972,
+          1155218597,
+          961020636
+        ],
+        "highway": "tertiary",
+        "maxspeed": "50",
+        "lanes": "2",
+        "source": "OpenStreetMap contributors, downloaded 2026-09-22 via Map API",
+        "source_url": "https://www.openstreetmap.org/way/42747972",
+        "license": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            9.7664249,
+            52.3815738
+          ],
+          [
+            9.7664443,
+            52.3815379
+          ],
+          [
+            9.7664971,
+            52.381443
+          ],
+          [
+            9.766608,
+            52.3812512
+          ],
+          [
+            9.7669346,
+            52.380681
+          ],
+          [
+            9.7672711,
+            52.3801371
+          ],
+          [
+            9.768021,
+            52.3788695
+          ],
+          [
+            9.7681492,
+            52.3786514
+          ],
+          [
+            9.7682538,
+            52.3784629
+          ]
+        ]
+      }
+    }
+  ]
+}

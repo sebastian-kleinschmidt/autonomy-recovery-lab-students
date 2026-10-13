@@ -1,0 +1,4 @@
+# Alle Szenarien bis einschliesslich bootcamp; nur die neuen: --release bootcamp --nur-neu.
+../scenarios/hannover_frei.json
+../scenarios/hannover_gegenverkehr.json
+../scenarios/hannover_durchgezogen.json

@@ -1,0 +1,13 @@
+# Alle Szenarien bis einschliesslich sprint1; nur die neuen: --release sprint1 --nur-neu.
+../scenarios/hannover_frei.json
+../scenarios/hannover_gegenverkehr.json
+../scenarios/hannover_durchgezogen.json
+../scenarios/hannover_fussgaengergruppe.json
+../scenarios/hannover_radverkehr.json
+../scenarios/hannover_schmal.json
+../scenarios/hannover_sichtweite.json
+../scenarios/hannover_linienbus.json
+../scenarios/hannover_einparker.json
+../scenarios/hannover_umzug.json
+../scenarios/hannover_radfahrer_gegenrichtung.json
+../scenarios/hannover_polizei_handzeichen.json

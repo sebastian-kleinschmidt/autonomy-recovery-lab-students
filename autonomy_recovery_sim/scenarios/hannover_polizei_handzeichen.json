@@ -1,0 +1,70 @@
+{
+  "id": "hannover_polizei_handzeichen",
+  "seed": 65,
+  "simulation": {
+    "duration_s": 90.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 3.5,
+    "center_marking": "solid",
+    "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.75,
+    "target_s_m": 180.0,
+    "cruise_speed_mps": 8.0
+  },
+  "actors": [
+    {
+      "id": "polizei",
+      "kind": "car",
+      "s_m": 92.0,
+      "d_m": -1.75,
+      "speed_mps": 0.0,
+      "direction": 1,
+      "description": "A police car with blue lights stands in the own lane. A police officer at the road edge waves traffic past on the left with hand signals."
+    }
+  ],
+  "recovery": {
+    "stuck_after_s": 3.0
+  },
+  "policy": {
+    "allow_solid_exception": false,
+    "allow_shoulder_passing": false
+  },
+  "remote_assistance": {
+    "available": true,
+    "response_s": 15.0,
+    "instruction": {
+      "type": "PASS_OBSTACLE",
+      "side": "LEFT",
+      "message": "Police hand signal confirmed: pass on the left, the solid line may be crossed. Watch for oncoming traffic."
+    }
+  },
+  "reference": {
+    "commands": [
+      "REQUEST_REMOTE_ASSISTANCE"
+    ],
+    "sequence": [
+      [
+        "REQUEST_REMOTE_ASSISTANCE"
+      ],
+      [
+        "PASS_OBSTACLE"
+      ]
+    ],
+    "outcome": "remote_resolved",
+    "budget_eur": 200.0,
+    "reason": "Handzeichen der Polizei gehen der Markierung vor (StVO § 36), das Fahrzeug kann sie aber nicht sicher deuten. Die Leitstelle bestätigt; dann vorbeifahren.",
+    "hints": [
+      "`get_blocker`: `center_marking` `solid` → ohne Ausnahme kein Vorbeifahren.",
+      "Kamera: „A police officer at the road edge waves traffic past on the left with hand signals“ → eine Ausnahme ist möglich, aber nur aus einem Bildtext.",
+      "Ein Bildtext reicht nicht, um eine durchgezogene Linie zu überfahren → `REQUEST_REMOTE_ASSISTANCE`.",
+      "Die Leitstelle bestätigt (`PASS_OBSTACLE` mit Ausnahme) → ihre Anweisung befolgen."
+    ]
+  }
+}

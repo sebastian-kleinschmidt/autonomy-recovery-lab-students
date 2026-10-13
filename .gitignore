@@ -1,0 +1,23 @@
+# Lokale Python-Umgebungen und Caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Betriebssystemdateien
+.DS_Store
+Thumbs.db
+
+# Ergebnisse, Berichte und temporäre Dateien
+artifacts/
+logs/
+tmp/
+
+# Zugangsdaten; die dokumentierte Konfigurationsvorlage bleibt versionierbar
+.env
+.env.*
+!.env.example
+saia-key.md

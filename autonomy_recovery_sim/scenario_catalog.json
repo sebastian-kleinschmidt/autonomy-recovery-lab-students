@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "usable_without_llm": true,
+  "release_order": [
+    "bootcamp",
+    "sprint1"
+  ],
+  "scenarios": [
+    {
+      "id": "hannover_frei",
+      "release": "bootcamp",
+      "tags": [
+        "blocker",
+        "nudge"
+      ],
+      "focus": "Freie Gegenfahrbahn und gestrichelte Linie",
+      "primary_metric": "command_accuracy"
+    },
+    {
+      "id": "hannover_gegenverkehr",
+      "release": "bootcamp",
+      "tags": [
+        "oncoming",
+        "wait"
+      ],
+      "focus": "Gegenverkehr verhindert das Umfahren",
+      "primary_metric": "unexpected_maneuver"
+    },
+    {
+      "id": "hannover_durchgezogen",
+      "release": "bootcamp",
+      "tags": [
+        "road_rule",
+        "remote_assistance"
+      ],
+      "focus": "Durchgezogene Linie: Leitstelle fragen und ihre Ausnahme befolgen",
+      "primary_metric": "solution_complete"
+    },
+    {
+      "id": "hannover_fussgaengergruppe",
+      "release": "sprint1",
+      "tags": [
+        "vru",
+        "transient",
+        "wait"
+      ],
+      "focus": "Voruebergehende Fussgaengergruppe",
+      "primary_metric": "command_accuracy"
+    },
+    {
+      "id": "hannover_radverkehr",
+      "release": "sprint1",
+      "tags": [
+        "vru",
+        "bicycle",
+        "wait"
+      ],
+      "focus": "Radverkehr im Manoeverkorridor",
+      "primary_metric": "unexpected_maneuver"
+    },
+    {
+      "id": "hannover_schmal",
+      "release": "sprint1",
+      "tags": [
+        "clearance",
+        "wait"
+      ],
+      "focus": "Unzureichender Seitenabstand",
+      "primary_metric": "unexpected_maneuver"
+    },
+    {
+      "id": "hannover_sichtweite",
+      "release": "sprint1",
+      "tags": [
+        "visibility",
+        "wait"
+      ],
+      "focus": "Zu geringe Sichtweite",
+      "primary_metric": "unexpected_maneuver"
+    },
+    {
+      "id": "hannover_linienbus",
+      "release": "sprint1",
+      "tags": [
+        "bus",
+        "transient",
+        "wait"
+      ],
+      "focus": "Linienbus faehrt von der Haltestelle ab",
+      "primary_metric": "command_accuracy"
+    },
+    {
+      "id": "hannover_einparker",
+      "release": "sprint1",
+      "tags": [
+        "transient",
+        "wait"
+      ],
+      "focus": "Pkw parkt gerade ein",
+      "primary_metric": "unexpected_maneuver"
+    },
+    {
+      "id": "hannover_umzug",
+      "release": "sprint1",
+      "tags": [
+        "long_term",
+        "pass"
+      ],
+      "focus": "Umzugstransporter steht stundenlang",
+      "primary_metric": "command_accuracy"
+    },
+    {
+      "id": "hannover_radfahrer_gegenrichtung",
+      "release": "sprint1",
+      "tags": [
+        "vru",
+        "bicycle",
+        "oncoming",
+        "wait",
+        "nudge"
+      ],
+      "focus": "Radfahrer auf der Gegenspur abwarten, dann vorbeifahren",
+      "primary_metric": "sequence_complete"
+    },
+    {
+      "id": "hannover_polizei_handzeichen",
+      "release": "sprint1",
+      "tags": [
+        "remote",
+        "road_rule"
+      ],
+      "focus": "Handzeichen der Polizei ueber die Leitstelle bestaetigen",
+      "primary_metric": "command_accuracy"
+    }
+  ]
+}
