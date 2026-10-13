@@ -2,7 +2,7 @@
 
 Masterlabor „Agentic AI & Autonomous Driving“ · Dr.-Ing. Michael Nolting,
 Dr.-Ing. Sebastian Kleinschmidt · Fachgebiet Wissensbasierte Systeme · Leibniz Universität Hannover ·
-Stand 25.09.2026
+Stand 13.10.2026
 
 Dieses Skript begleitet den eigenständigen Versuch **Agentic Autonomy Recovery**. Es erklärt, was einen
 Agenten von einem Sprachmodell unterscheidet, aus welchen Bausteinen er besteht, welche Muster
@@ -363,17 +363,19 @@ und die Sicherheitsprüfung bleiben außerhalb des Modells.
 
 | Konzept | In AutonomyRecoverySim | Wo ihr es übt |
 |---|---|---|
-| Werkzeuge | zwölf Lagewerkzeuge (`exact`) oder drei Messwerkzeuge (`tracked`), dazu zwei des VLA-Fahrstacks | Bootcamp (von Hand), ab Sprint 1 (im Code) |
-| Gedächtnis über Runden | Verlauf und Zusatzinformationen | Sprint 1, mehrstufige Szenarien ab Sprint 2 |
-| Unsichere Wahrnehmung | Objektliste mit Klassenwahrscheinlichkeiten und Rauschen | Sprint 2 |
-| Agentenloop | eine Schleife auf einer Seite um den Regelagenten | Sprint 2 |
-| Kontextgestaltung | was die erste Nachricht enthält | Sprint 2 |
-| Aus Rückmeldung korrigieren | Ablehnungen mit Code und Grund | Sprint 1 (Regeln), Sprint 2 (Modell) |
+| Werkzeuge | 13 Werkzeuge: Objektliste, Sichtabdeckung, Karte, Lageprüfungen, Kontext; in VLA-Szenarien zwei des Fahrstacks | Bootcamp (von Hand), ab Sprint 1 (im Code) |
+| Workflow gegen Agent | je Sprint ein klassischer Regelagent und ein LLM-Agent im Vergleich | ab Sprint 1 |
+| Agentenloop | eine Schleife auf einer Seite um das Modell | ab Sprint 1 |
+| Kontextgestaltung | was die erste Nachricht enthält | ab Sprint 1 |
+| Unsichere Wahrnehmung | Objektliste mit Klassenwahrscheinlichkeiten und Rauschen | ab Sprint 1, Datenqualität in Sprint 3 |
+| Aus Rückmeldung korrigieren | Ablehnungen mit Code und Grund | ab Sprint 1 |
+| Gedächtnis über Runden | Verlauf und Zusatzinformationen | mehrstufige Fälle ab Sprint 2 |
+| Mensch in der Schleife | Anweisungen und Freigaben der Leitstelle | Sprint 1 (Handzeichen), Sprint 2 |
+| Planen unter sich ändernder Lage | neue Beobachtungen während eines Manövers, dynamischer Abbruch | Sprint 2, Sprint 4 |
 | Falsche Selbstauskunft | VLA-Fälle | Sprint 3 |
 | Prompt-Injection | `hannover_injektion` | Sprint 3 |
-| Planen unter sich ändernder Lage | Phasenmanöver mit Checkpoints, Auslöser | Sprint 3 |
 | Guardrails | Schema, harte Regeln, Sicherheitswarnungen, Budgets, fail-safe; feste Aufgabenteilung | jeder Lauf, eigene Schutzregeln in Sprint 4 |
-| Messen | Prüfstand mit Befund je Fall, Fortschritt seit dem letzten Lauf, Wiederholungen, Seed-Variationen | jeder Lauf, Evaluation |
+| Messen | Prüfstand mit Befund je Fall, nur neue Fälle (`--nur-neu`), Wiederholungen, unbekanntes Prüfungsset im Sprint Review | jeder Lauf, jedes Review |
 
 Agenten können euch außerdem als Coding-Werkzeug und bei der Auswertung unterstützen.
 Die Abschnitte 5 bis 7 gelten dabei genauso: Jede Zahl, die ein Agent erzeugt,
