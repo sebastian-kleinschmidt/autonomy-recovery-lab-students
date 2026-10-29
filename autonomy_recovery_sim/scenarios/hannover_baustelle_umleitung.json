@@ -1,0 +1,68 @@
+{
+  "id": "hannover_baustelle_umleitung",
+  "seed": 42,
+  "simulation": {
+    "duration_s": 45.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 3.5,
+    "center_marking": "dashed",
+    "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.75,
+    "target_s_m": 180.0,
+    "cruise_speed_mps": 8.0
+  },
+  "actors": [
+    {
+      "id": "beacon_right",
+      "kind": "beacon",
+      "s_m": 92.0,
+      "d_m": -1.75,
+      "speed_mps": 0.0,
+      "direction": 1,
+      "length_m": 0.5,
+      "width_m": 0.5,
+      "description": "A red-and-white warning beacon closes the own lane on the right side of the road works barrier."
+    },
+    {
+      "id": "beacon_left",
+      "kind": "beacon",
+      "s_m": 92.0,
+      "d_m": 1.75,
+      "speed_mps": 0.0,
+      "direction": -1,
+      "length_m": 0.5,
+      "width_m": 0.5,
+      "behavior": "parked",
+      "description": "A second warning beacon stands in the oncoming lane and completes the visible closure."
+    }
+  ],
+  "recovery": {
+    "stuck_after_s": 3.0
+  },
+  "policy": {
+    "allow_solid_exception": false
+  },
+  "reference": {
+    "command": "REPLAN_ROUTE",
+    "outcome": "rerouted",
+    "budget_eur": 120.0,
+    "reason": "Eine Vollsperrung blockiert die Route; die Karte kennt sie und bietet eine längere Alternativroute mit Umwegkosten.",
+    "hints": [
+      "`get_blocker`: Warnbake (`TRAFFIC_CONE`); Kamera: eine zweite Bake auf der Gegenspur schließt die Absperrung → Vorbeifahren hilft nicht.",
+      "`get_route_state`: `route_blocked` true, `alternative_route_available` true, Umweg ≈ 180 s → `REPLAN_ROUTE`.",
+      "`turn_required` false → keine Wende nötig, keine Lageprüfungen Pflicht."
+    ]
+  },
+  "route": {
+    "blocked": true,
+    "alternative_available": true,
+    "detour_cost_s": 180.0
+  }
+}

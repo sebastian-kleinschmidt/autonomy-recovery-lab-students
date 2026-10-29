@@ -1,0 +1,49 @@
+{
+  "id": "hannover_muelltonne",
+  "seed": 42,
+  "simulation": {
+    "duration_s": 45.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 3.5,
+    "center_marking": "dashed",
+    "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.75,
+    "target_s_m": 180.0,
+    "cruise_speed_mps": 8.0
+  },
+  "actors": [
+    {
+      "id": "trash_bin",
+      "kind": "trash_bin",
+      "s_m": 92.0,
+      "d_m": -2.9,
+      "speed_mps": 0.0,
+      "direction": 1,
+      "length_m": 0.8,
+      "width_m": 0.7,
+      "description": "A single wheelie bin stands near the right edge of the own lane."
+    }
+  ],
+  "recovery": {
+    "stuck_after_s": 3.0
+  },
+  "policy": {
+    "allow_solid_exception": false
+  },
+  "reference": {
+    "command": "PASS_OBSTACLE",
+    "outcome": "liberated",
+    "reason": "Eine Muelltonne am Fahrbahnrand laesst sich mit kleinem seitlichem Versatz innerhalb der Fahrspur umfahren.",
+    "hints": [
+      "`get_blocker`: Mülltonne (`TRASH_BIN`) am rechten Spurrand; `clearance_m.left_in_lane` 2,4 m > `ego_width` 1,99 m → passt innerhalb der eigenen Spur vorbei.",
+      "Vorbeifahren in der Spur berührt die Gegenspur nicht; `PASS_OBSTACLE` LEFT, der Ausführer bleibt in der Spur."
+    ]
+  }
+}

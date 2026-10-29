@@ -1,0 +1,124 @@
+{
+  "id": "f6_stau_loest_sich",
+  "seed": 42,
+  "simulation": {
+    "duration_s": 150.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 3.5,
+    "center_marking": "dashed",
+    "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.75,
+    "target_s_m": 260.0,
+    "cruise_speed_mps": 8.0
+  },
+  "recovery": {
+    "stuck_after_s": 3.0,
+    "max_commands": 12
+  },
+  "policy": {
+    "allow_solid_exception": false
+  },
+  "route": {
+    "alternative_available": true,
+    "detour_cost_s": 180.0
+  },
+  "actors": [
+    {
+      "id": "stau_0",
+      "kind": "car",
+      "s_m": 92.0,
+      "d_m": -1.75,
+      "description": "A car stands in a queue in the own lane, brake lights on.",
+      "triggers": [
+        {
+          "when": {
+            "since_first_session_s": {
+              "gte": 12.0
+            }
+          },
+          "then": {
+            "start_motion": {
+              "target_speed_mps": 4.0
+            }
+          },
+          "hint": {
+            "tool": "get_tracked_objects",
+            "why": "Mehrere Fahrzeuge stehen hintereinander: ein Stau, der sich bald auflöst."
+          }
+        }
+      ]
+    },
+    {
+      "id": "stau_1",
+      "kind": "car",
+      "s_m": 100.0,
+      "d_m": -1.75,
+      "description": "A car stands in a queue in the own lane, brake lights on.",
+      "triggers": [
+        {
+          "when": {
+            "since_first_session_s": {
+              "gte": 11.0
+            }
+          },
+          "then": {
+            "start_motion": {
+              "target_speed_mps": 4.0
+            }
+          },
+          "hint": {
+            "tool": "get_tracked_objects",
+            "why": "Mehrere Fahrzeuge stehen hintereinander: ein Stau, der sich bald auflöst."
+          }
+        }
+      ]
+    },
+    {
+      "id": "stau_2",
+      "kind": "car",
+      "s_m": 108.0,
+      "d_m": -1.75,
+      "description": "A car stands in a queue in the own lane, brake lights on.",
+      "triggers": [
+        {
+          "when": {
+            "since_first_session_s": {
+              "gte": 10.0
+            }
+          },
+          "then": {
+            "start_motion": {
+              "target_speed_mps": 4.0
+            }
+          },
+          "hint": {
+            "tool": "get_tracked_objects",
+            "why": "Mehrere Fahrzeuge stehen hintereinander: ein Stau, der sich bald auflöst."
+          }
+        }
+      ]
+    }
+  ],
+  "difficulty": {
+    "level": "B"
+  },
+  "reference": {
+    "commands": [
+      "WAIT"
+    ],
+    "outcome": "resolved",
+    "budget_eur": 30.0,
+    "reason": "Ein gewöhnlicher Stau, der sich nach wenigen Sekunden auflöst. Überholen wäre unnötig riskant.",
+    "hints": [
+      "`get_tracked_objects`: mehrere Pkw stehen hintereinander in der eigenen Spur; Kamera: „brake lights on“ → ein Stau, kein Hindernis.",
+      "→ `WAIT`; Überholen einer Kolonne wäre riskant und unnötig."
+    ]
+  }
+}

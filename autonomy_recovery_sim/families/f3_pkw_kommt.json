@@ -1,0 +1,113 @@
+{
+  "id": "f3_pkw_kommt",
+  "seed": 42,
+  "simulation": {
+    "duration_s": 150.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 3.5,
+    "center_marking": "dashed",
+    "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.75,
+    "target_s_m": 260.0,
+    "cruise_speed_mps": 8.0
+  },
+  "recovery": {
+    "stuck_after_s": 3.0,
+    "max_commands": 12
+  },
+  "policy": {
+    "allow_solid_exception": false
+  },
+  "route": {
+    "alternative_available": true,
+    "detour_cost_s": 180.0
+  },
+  "actors": [
+    {
+      "id": "breiter_lkw",
+      "kind": "truck",
+      "s_m": 92.0,
+      "d_m": -1.6,
+      "length_m": 8.0,
+      "width_m": 2.55,
+      "description": "A wide truck stands in the own lane and hides the oncoming lane further ahead."
+    },
+    {
+      "id": "gegenverkehr_pkw",
+      "kind": "car",
+      "s_m": 128.0,
+      "d_m": 1.75,
+      "direction": -1,
+      "description": "A car in the oncoming lane, hidden by the truck.",
+      "triggers": [
+        {
+          "when": {
+            "ego_lateral_offset_m": {
+              "gte": 0.5
+            }
+          },
+          "then": {
+            "start_motion": {
+              "target_speed_mps": 5.0
+            }
+          },
+          "hint": {
+            "tool": "check_oncoming_traffic",
+            "why": "Die Gegenspur hinter dem Lkw ist nicht einsehbar (visible_m)."
+          }
+        },
+        {
+          "when": {
+            "since_first_session_s": {
+              "gte": 45.0
+            }
+          },
+          "then": {
+            "start_motion": {
+              "target_speed_mps": 5.0
+            }
+          },
+          "hint": {
+            "tool": "check_oncoming_traffic",
+            "why": "Die Gegenspur hinter dem Lkw ist nicht einsehbar (visible_m)."
+          }
+        }
+      ]
+    }
+  ],
+  "perception": {
+    "noise": {
+      "class_confusion": 0.15,
+      "dropout_probability": 0.05
+    }
+  },
+  "difficulty": {
+    "level": "C"
+  },
+  "reference": {
+    "commands": [
+      "PASS_OBSTACLE",
+      "WAIT"
+    ],
+    "sequence": [
+      [
+        "PASS_OBSTACLE"
+      ]
+    ],
+    "outcome": "liberated",
+    "budget_eur": 80.0,
+    "reason": "Erst beim Ausscheren taucht Gegenverkehr auf: zurück in die Spur, ihn vorbeilassen, dann überholen.",
+    "hints": [
+      "`check_oncoming_traffic`: `sight_sufficient` false, der breite Lkw verdeckt die Gegenspur → nur zum Schauen ausscheren.",
+      "Am Kontrollpunkt (`SITUATION_CHANGED`) meldet `check_oncoming_traffic` den Pkw → nicht `RESUME`, sondern `WAIT` oder `ABORT_TO_LANE`.",
+      "Wenn kein Konflikt mehr gemeldet wird, erneut `PASS_OBSTACLE`."
+    ]
+  }
+}

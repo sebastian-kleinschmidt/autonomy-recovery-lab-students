@@ -1,6 +1,6 @@
 # Szenarienkatalog und Sprintfreigaben
 
-**Aktuelle Ausgabe: sprint1.** Neue Übungsfälle kommen gesammelt zum Sprintbeginn;
+**Aktuelle Ausgabe: sprint2.** Neue Übungsfälle kommen gesammelt zum Sprintbeginn;
 bisherige Fälle bleiben für Regressionstests erhalten. Zusätzliche Demo-Prüfungen
 folgen erst nach dem Agent-Freeze. Ablauf: [README](../README.md#ablauf-eines-sprints).
 
@@ -33,12 +33,31 @@ folgen erst nach dem Agent-Freeze. Ablauf: [README](../README.md#ablauf-eines-sp
 | [hannover_umzug](scenarios/hannover_umzug.json) | sprint1 |
 | [hannover_radfahrer_gegenrichtung](scenarios/hannover_radfahrer_gegenrichtung.json) | sprint1 |
 | [hannover_polizei_handzeichen](scenarios/hannover_polizei_handzeichen.json) | sprint1 |
+| [hannover_baustelle_umleitung](scenarios/hannover_baustelle_umleitung.json) | sprint2 |
+| [hannover_sackgasse](scenarios/hannover_sackgasse.json) | sprint2 |
+| [hannover_muelltonne](scenarios/hannover_muelltonne.json) | sprint2 |
+| [hannover_objekt_falsch_abgestellt](scenarios/hannover_objekt_falsch_abgestellt.json) | sprint2 |
+| [hannover_lieferwagen_faehrt_los](scenarios/hannover_lieferwagen_faehrt_los.json) | sprint2 |
+| [hannover_passagier_absetzen](scenarios/hannover_passagier_absetzen.json) | sprint2 |
+| [hannover_ziel_gesperrt](scenarios/hannover_ziel_gesperrt.json) | sprint2 |
+| [hannover_leitstelle_offline](scenarios/hannover_leitstelle_offline.json) | sprint2 |
 
 ## Szenariofamilien F1 bis F6: Lagen, die sich ändern
 
 Sechs Familieneinstiege werden mit Sprint 2 freigegeben, die weiteren
 Varianten mit Sprint 3. Akteure können auf das Fahrzeug reagieren;
 bei neuer Lage (SITUATION_CHANGED) muss der Agent anhand seiner Beobachtungen neu entscheiden.
+
+## Verfügbare Familienvarianten
+
+| Datei | Familie |
+|---|---|
+| [f1_muellabfuhr](families/f1_muellabfuhr.json) | F1 |
+| [f2_fahrer_weg](families/f2_fahrer_weg.json) | F2 |
+| [f3_pkw_kommt](families/f3_pkw_kommt.json) | F3 |
+| [f4_frueh_zu](families/f4_frueh_zu.json) | F4 |
+| [f5_frei](families/f5_frei.json) | F5 |
+| [f6_stau_loest_sich](families/f6_stau_loest_sich.json) | F6 |
 
 ## VLA-Fahrstack: Selbstauskunft pruefen
 

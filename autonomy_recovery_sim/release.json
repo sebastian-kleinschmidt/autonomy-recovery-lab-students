@@ -1,6 +1,6 @@
 {
-  "release": "sprint1",
-  "scenario_count": 12,
-  "family_count": 0,
-  "pruefungen_bis_sprint": 0
+  "release": "sprint2",
+  "scenario_count": 20,
+  "family_count": 6,
+  "pruefungen_bis_sprint": 1
 }

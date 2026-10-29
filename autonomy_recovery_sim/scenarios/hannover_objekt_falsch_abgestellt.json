@@ -1,0 +1,53 @@
+{
+  "id": "hannover_objekt_falsch_abgestellt",
+  "seed": 42,
+  "simulation": {
+    "duration_s": 45.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 3.5,
+    "center_marking": "dashed",
+    "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht. In diesem Laborszenario ist der rechte Seitenstreifen ausdruecklich als Ausweichflaeche freigegeben."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.75,
+    "target_s_m": 180.0,
+    "cruise_speed_mps": 8.0
+  },
+  "actors": [
+    {
+      "id": "crate",
+      "kind": "debris",
+      "s_m": 92.0,
+      "d_m": -1.0,
+      "speed_mps": 0.0,
+      "direction": 1,
+      "length_m": 1.0,
+      "width_m": 1.0,
+      "description": "A compact transport crate stands unattended and slightly offset in the own lane."
+    }
+  ],
+  "recovery": {
+    "stuck_after_s": 3.0
+  },
+  "policy": {
+    "allow_solid_exception": false,
+    "allow_shoulder_passing": true
+  },
+  "reference": {
+    "commands": [
+      "PASS_OBSTACLE"
+    ],
+    "outcome": "liberated",
+    "budget_eur": 100.0,
+    "reason": "Ein falsch abgestelltes Objekt links der Spurmitte: links reicht der Platz nicht, rechts über den freigegebenen Seitenstreifen umfahren.",
+    "hints": [
+      "`get_blocker`: Kiste links der Spurmitte; `clearance_m.left_in_lane` nur 0,28 m, `right_with_shoulder` 4,8 m.",
+      "`shoulder_passing_allowed` true → `PASS_OBSTACLE` RIGHT ist der kleinere Umweg und bleibt auf der eigenen Fahrbahnseite."
+    ]
+  }
+}

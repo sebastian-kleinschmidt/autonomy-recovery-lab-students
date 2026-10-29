@@ -1,0 +1,73 @@
+{
+  "id": "f5_frei",
+  "seed": 42,
+  "simulation": {
+    "duration_s": 150.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 3.5,
+    "center_marking": "dashed",
+    "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.75,
+    "target_s_m": 260.0,
+    "cruise_speed_mps": 8.0
+  },
+  "recovery": {
+    "stuck_after_s": 3.0,
+    "max_commands": 12
+  },
+  "policy": {
+    "allow_solid_exception": false
+  },
+  "route": {
+    "blocked": true,
+    "alternative_available": true,
+    "detour_cost_s": 180.0,
+    "turn_required": true
+  },
+  "actors": [
+    {
+      "id": "absperrung",
+      "kind": "barrier",
+      "s_m": 100.0,
+      "d_m": -1.75,
+      "length_m": 0.6,
+      "width_m": 3.4,
+      "description": "A red-and-white barrier with a 'Road closed' sign stands across the own lane."
+    }
+  ],
+  "perception": {
+    "noise": {
+      "class_confusion": 0.15,
+      "dropout_probability": 0.05,
+      "false_positive_rate_hz": 0.05
+    }
+  },
+  "difficulty": {
+    "level": "D"
+  },
+  "reference": {
+    "commands": [
+      "WAIT",
+      "REPLAN_ROUTE"
+    ],
+    "sequence": [
+      [
+        "REPLAN_ROUTE"
+      ]
+    ],
+    "outcome": "rerouted",
+    "budget_eur": 160.0,
+    "reason": "Die Straße ist gesperrt, niemand kommt: mit einer Dreipunktwende umdrehen.",
+    "hints": [
+      "`get_blocker`: Absperrschranke mit Schild „Road closed“ → nie umfahren (`ROAD_CLOSED`).",
+      "`get_route_state`: `turn_required` true; `check_oncoming_traffic` und `check_rear_traffic`: niemand → `REPLAN_ROUTE` mit Wende."
+    ]
+  }
+}

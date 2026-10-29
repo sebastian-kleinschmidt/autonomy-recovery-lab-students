@@ -3,7 +3,8 @@
   "usable_without_llm": true,
   "release_order": [
     "bootcamp",
-    "sprint1"
+    "sprint1",
+    "sprint2"
   ],
   "scenarios": [
     {
@@ -131,6 +132,89 @@
       ],
       "focus": "Handzeichen der Polizei ueber die Leitstelle bestaetigen",
       "primary_metric": "command_accuracy"
+    },
+    {
+      "id": "hannover_baustelle_umleitung",
+      "release": "sprint2",
+      "tags": [
+        "route",
+        "replan"
+      ],
+      "focus": "Vollsperrung mit kostenpflichtiger Umleitung",
+      "primary_metric": "total_cost"
+    },
+    {
+      "id": "hannover_sackgasse",
+      "release": "sprint2",
+      "tags": [
+        "sequence",
+        "reverse",
+        "replan"
+      ],
+      "focus": "Zuruecksetzen vor dem Umplanen",
+      "primary_metric": "command_accuracy"
+    },
+    {
+      "id": "hannover_muelltonne",
+      "release": "sprint2",
+      "tags": [
+        "small_obstruction",
+        "avoid"
+      ],
+      "focus": "Kleines Hindernis innerhalb der Fahrspur",
+      "primary_metric": "total_cost"
+    },
+    {
+      "id": "hannover_objekt_falsch_abgestellt",
+      "release": "sprint2",
+      "tags": [
+        "small_obstruction",
+        "avoid"
+      ],
+      "focus": "Wahl des kleineren seitlichen Versatzes",
+      "primary_metric": "total_cost"
+    },
+    {
+      "id": "hannover_lieferwagen_faehrt_los",
+      "release": "sprint2",
+      "tags": [
+        "dynamic_blocker",
+        "wait"
+      ],
+      "focus": "Blocker faehrt nach kurzer Zeit weiter",
+      "primary_metric": "total_cost"
+    },
+    {
+      "id": "hannover_passagier_absetzen",
+      "release": "sprint2",
+      "tags": [
+        "mission",
+        "passengers",
+        "sequence"
+      ],
+      "focus": "Sicheres Halten vor dem Absetzen",
+      "primary_metric": "customer_satisfaction"
+    },
+    {
+      "id": "hannover_ziel_gesperrt",
+      "release": "sprint2",
+      "tags": [
+        "mission",
+        "return_home"
+      ],
+      "focus": "Ziel unerreichbar: Leitstelle fragen, dann leer zum Hub",
+      "primary_metric": "total_cost"
+    },
+    {
+      "id": "hannover_leitstelle_offline",
+      "release": "sprint2",
+      "tags": [
+        "mission",
+        "safe_stop",
+        "sequence"
+      ],
+      "focus": "Sicherer Missionsabschluss ohne Leitstelle",
+      "primary_metric": "total_cost"
     }
   ]
 }

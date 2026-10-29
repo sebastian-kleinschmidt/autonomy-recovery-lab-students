@@ -1,4 +1,4 @@
-> **Ausgabe: sprint1.** Enthalten sind nur die bisher freigegebenen Szenarien.
+> **Ausgabe: sprint2.** Enthalten sind nur die bisher freigegebenen Szenarien.
 > Beispiele für spätere Sprints sind eine Vorschau und erst nach deren Freigabe ausführbar.
 
 # Wie schreibe ich meinen ersten Agenten?

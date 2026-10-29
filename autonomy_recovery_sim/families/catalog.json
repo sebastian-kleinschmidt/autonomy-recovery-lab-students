@@ -1,0 +1,59 @@
+{
+  "version": 2,
+  "families": [
+    {
+      "id": "f1_muellabfuhr",
+      "family": "F1",
+      "title": "Verdeckte Ursache",
+      "level": "C",
+      "goal": "Erst Information kaufen (ausscheren und schauen), dann handeln.",
+      "visible": true,
+      "introductory": true
+    },
+    {
+      "id": "f2_fahrer_weg",
+      "family": "F2",
+      "title": "Hindernis reagiert",
+      "level": "B",
+      "goal": "Wo liegt der Punkt ohne Rückkehr? Hinweise auf einen Fahrer ernst nehmen.",
+      "visible": true,
+      "introductory": true
+    },
+    {
+      "id": "f3_pkw_kommt",
+      "family": "F3",
+      "title": "Gegenverkehr aus der Verdeckung",
+      "level": "C",
+      "goal": "Verdeckung ernst nehmen, ohne zu erstarren: bei neuer Lage neu entscheiden.",
+      "visible": true,
+      "introductory": true
+    },
+    {
+      "id": "f4_frueh_zu",
+      "family": "F4",
+      "title": "Rückweg verbaut",
+      "level": "D",
+      "goal": "Optionen haben einen Wert: früh entscheiden, solange Wenden noch möglich ist.",
+      "visible": true,
+      "introductory": true
+    },
+    {
+      "id": "f5_frei",
+      "family": "F5",
+      "title": "Wende mit Tücken",
+      "level": "D",
+      "goal": "Wenden ist selbst ein riskantes Manöver: Verkehr in beiden Richtungen prüfen.",
+      "visible": true,
+      "introductory": true
+    },
+    {
+      "id": "f6_stau_loest_sich",
+      "family": "F6",
+      "title": "Lage entspannt sich",
+      "level": "B",
+      "goal": "Vor dem Punkt ohne Rückkehr neu prüfen, aber nicht übervorsichtig sein.",
+      "visible": true,
+      "introductory": true
+    }
+  ]
+}

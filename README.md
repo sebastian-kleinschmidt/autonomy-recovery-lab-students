@@ -1,4 +1,4 @@
-> **Ausgabe: sprint1.** Enthalten sind nur die bisher freigegebenen Szenarien.
+> **Ausgabe: sprint2.** Enthalten sind nur die bisher freigegebenen Szenarien.
 > Beispiele für spätere Sprints sind eine Vorschau und erst nach deren Freigabe ausführbar.
 
 <a id="readme-top"></a>
@@ -155,7 +155,7 @@ Das Beispiel zeigt Sprint 1; die anderen Sprints laufen genauso.
 
 ```bash
 python3 -m autonomy_recovery_sim.live \
-  --batch autonomy_recovery_sim/scenario_sets/sprint1.txt --agent none
+  --batch autonomy_recovery_sim/scenario_sets/sprint2.txt --agent none
 ```
 
 Notiert vor jedem Befehl eure Erwartung und danach, was passiert ist.
@@ -165,14 +165,14 @@ Notiert vor jedem Befehl eure Erwartung und danach, was passiert ist.
 Ändert jeweils eine Sache und messt neu, jede Version in einem eigenen Ordner:
 
 ```bash
-python3 -m autonomy_recovery_sim batch --release sprint1 --nur-neu \
-  --agent mein_agent:decide --output artifacts/sprint1/klassisch-v1
-python3 -m autonomy_recovery_sim batch --release sprint1 \
-  --agent mein_agent:decide --output artifacts/sprint1/klassisch
-python3 -m autonomy_recovery_sim batch --release sprint1 \
-  --agent mein_llm_agent:decide --output artifacts/sprint1/llm
-python3 -m autonomy_recovery_sim batch --release sprint1 --nur-neu --repeats 3 \
-  --agent mein_llm_agent:decide --output artifacts/sprint1/llm-stabil
+python3 -m autonomy_recovery_sim batch --release sprint2 --nur-neu \
+  --agent mein_agent:decide --output artifacts/sprint2/klassisch-v1
+python3 -m autonomy_recovery_sim batch --release sprint2 \
+  --agent mein_agent:decide --output artifacts/sprint2/klassisch
+python3 -m autonomy_recovery_sim batch --release sprint2 \
+  --agent mein_llm_agent:decide --output artifacts/sprint2/llm
+python3 -m autonomy_recovery_sim batch --release sprint2 --nur-neu --repeats 3 \
+  --agent mein_llm_agent:decide --output artifacts/sprint2/llm-stabil
 ```
 
 `--nur-neu` fährt nur die neuen Fälle des Sprints, ohne alle bisherigen. Die Berichte
@@ -184,7 +184,7 @@ Sicherheitsbefunde und Kosten. Exit-Code `1` heißt nur: nicht alles bestanden.
 
 ```bash
 python3 -m autonomy_recovery_sim.live \
-  --scenario autonomy_recovery_sim/scenarios/hannover_sichtweite.json --agent mein_agent:decide
+  --scenario autonomy_recovery_sim/scenarios/hannover_sackgasse.json --agent mein_agent:decide
 ```
 
 Mit Pause und Einzelschritt seht ihr, welche Beobachtung zu welcher Entscheidung führte.

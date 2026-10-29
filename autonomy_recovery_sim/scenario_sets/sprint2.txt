@@ -1,0 +1,27 @@
+# Alle Szenarien bis einschliesslich sprint2; nur die neuen: --release sprint2 --nur-neu.
+../scenarios/hannover_frei.json
+../scenarios/hannover_gegenverkehr.json
+../scenarios/hannover_durchgezogen.json
+../scenarios/hannover_fussgaengergruppe.json
+../scenarios/hannover_radverkehr.json
+../scenarios/hannover_schmal.json
+../scenarios/hannover_sichtweite.json
+../scenarios/hannover_linienbus.json
+../scenarios/hannover_einparker.json
+../scenarios/hannover_umzug.json
+../scenarios/hannover_radfahrer_gegenrichtung.json
+../scenarios/hannover_polizei_handzeichen.json
+../scenarios/hannover_baustelle_umleitung.json
+../scenarios/hannover_sackgasse.json
+../scenarios/hannover_muelltonne.json
+../scenarios/hannover_objekt_falsch_abgestellt.json
+../scenarios/hannover_lieferwagen_faehrt_los.json
+../scenarios/hannover_passagier_absetzen.json
+../scenarios/hannover_ziel_gesperrt.json
+../scenarios/hannover_leitstelle_offline.json
+../families/f1_muellabfuhr.json
+../families/f2_fahrer_weg.json
+../families/f3_pkw_kommt.json
+../families/f4_frueh_zu.json
+../families/f5_frei.json
+../families/f6_stau_loest_sich.json

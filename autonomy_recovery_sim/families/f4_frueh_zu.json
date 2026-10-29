@@ -1,0 +1,132 @@
+{
+  "id": "f4_frueh_zu",
+  "seed": 42,
+  "simulation": {
+    "duration_s": 150.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 3.5,
+    "center_marking": "dashed",
+    "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.75,
+    "target_s_m": 260.0,
+    "cruise_speed_mps": 8.0
+  },
+  "recovery": {
+    "stuck_after_s": 3.0,
+    "max_commands": 12
+  },
+  "policy": {
+    "allow_solid_exception": false
+  },
+  "route": {
+    "blocked": true,
+    "map_stale": true,
+    "alternative_available": true,
+    "detour_cost_s": 200.0,
+    "turn_required": true
+  },
+  "actors": [
+    {
+      "id": "stehender_transporter",
+      "kind": "van",
+      "s_m": 92.0,
+      "d_m": -1.75,
+      "length_m": 6.0,
+      "width_m": 2.4,
+      "description": "A van stands in the own lane with its brake lights on. It hides what lies ahead; no reason for the stop is visible from here."
+    },
+    {
+      "id": "unfallwagen",
+      "kind": "car",
+      "s_m": 106.0,
+      "d_m": 0.0,
+      "length_m": 2.0,
+      "width_m": 6.8,
+      "description": "A crashed car stands across both lanes; broken glass lies on the road."
+    },
+    {
+      "id": "streifenwagen",
+      "kind": "car",
+      "s_m": 113.0,
+      "d_m": 1.75,
+      "direction": -1,
+      "description": "A police car with blue lights secures the accident scene in the oncoming lane."
+    },
+    {
+      "id": "nachfolger",
+      "kind": "car",
+      "s_m": 4.0,
+      "d_m": -1.75,
+      "description": "A car approaches from behind in the own lane and stops behind the vehicle.",
+      "triggers": [
+        {
+          "when": {
+            "since_first_session_s": {
+              "gte": 14.0
+            }
+          },
+          "then": {
+            "start_motion": {
+              "target_speed_mps": 4.0
+            }
+          },
+          "hint": {
+            "tool": "get_tracked_objects",
+            "why": "Verkehr von hinten wird sichtbar, sobald er näher kommt; danach ist kein Platz mehr zum Wenden."
+          }
+        },
+        {
+          "when": {
+            "since_first_session_s": {
+              "gte": 32.0
+            }
+          },
+          "then": {
+            "stop": {}
+          },
+          "hint": {
+            "tool": "get_tracked_objects",
+            "why": "Der Nachfolger hält hinter dem Ego an."
+          }
+        }
+      ]
+    }
+  ],
+  "perception": {
+    "noise": {
+      "class_confusion": 0.15,
+      "dropout_probability": 0.05,
+      "false_positive_rate_hz": 0.05
+    }
+  },
+  "difficulty": {
+    "level": "D"
+  },
+  "reference": {
+    "commands": [
+      "WAIT",
+      "PASS_OBSTACLE",
+      "REPLAN_ROUTE"
+    ],
+    "sequence": [
+      [
+        "REPLAN_ROUTE"
+      ]
+    ],
+    "outcome": "rerouted",
+    "budget_eur": 220.0,
+    "reason": "Vorn ist alles gesperrt, und von hinten kommt bald Verkehr: sofort nachsehen und wenden, solange Platz ist.",
+    "hints": [
+      "`get_route_state`: `turn_required` true; Kamera/Objektliste: Unfallwagen quer über beide Spuren → Vorbeifahren unmöglich.",
+      "`get_tracked_objects`: bald nähert sich Verkehr von hinten; danach ist kein Platz mehr zum Wenden → nicht lange warten.",
+      "Vor der Wende `check_oncoming_traffic` und `check_rear_traffic`, dann `REPLAN_ROUTE`."
+    ]
+  }
+}

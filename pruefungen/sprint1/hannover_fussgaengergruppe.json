@@ -1,0 +1,48 @@
+{
+  "id": "hannover_fussgaengergruppe",
+  "seed": 42,
+  "simulation": {
+    "duration_s": 70.0,
+    "dt_s": 0.1
+  },
+  "road": {
+    "map_file": "data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "data/hannover_wilhelm_busch_context.json",
+    "lane_width_m": 3.5,
+    "center_marking": "dashed",
+    "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
+  },
+  "ego": {
+    "start_s_m": 20.0,
+    "lane_d_m": -1.75,
+    "target_s_m": 180.0,
+    "cruise_speed_mps": 8.0
+  },
+  "actors": [
+    {
+      "id": "pedestrian_group",
+      "kind": "pedestrian",
+      "s_m": 92.0,
+      "d_m": -1.75,
+      "speed_mps": 0.0,
+      "direction": 1,
+      "length_m": 0.6,
+      "width_m": 3.0,
+      "behavior": "crossing",
+      "motion_start_time_s": 20.0,
+      "target_speed_mps": 1.2,
+      "exit_d_m": 6.0,
+      "description": "A small group of pedestrians is together in the lane, heading for the other side of the street."
+    }
+  ],
+  "recovery": {
+    "stuck_after_s": 3.0
+  },
+  "policy": {
+    "allow_solid_exception": false
+  },
+  "reference": {
+    "command": "WAIT",
+    "outcome": "resolved"
+  }
+}
