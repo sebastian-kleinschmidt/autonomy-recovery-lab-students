@@ -215,6 +215,39 @@
       ],
       "focus": "Sicherer Missionsabschluss ohne Leitstelle",
       "primary_metric": "total_cost"
+    },
+    {
+      "id": "demo_s1_01",
+      "release": "sprint2",
+      "tags": [
+        "demo",
+        "vru",
+        "pass"
+      ],
+      "focus": "Demo Sprint 1: parkender Pkw plus Personen im Überholkorridor",
+      "primary_metric": "command_accuracy"
+    },
+    {
+      "id": "demo_s1_02",
+      "release": "sprint2",
+      "tags": [
+        "demo",
+        "solid_line",
+        "safe_stop"
+      ],
+      "focus": "Demo Sprint 1: durchgezogene Linie, keine Leitstellenhilfe",
+      "primary_metric": "command_accuracy"
+    },
+    {
+      "id": "demo_s1_03",
+      "release": "sprint2",
+      "tags": [
+        "demo",
+        "occlusion",
+        "pass"
+      ],
+      "focus": "Demo Sprint 1: Lieferlkw verdeckt die Gegenspur, Gegenverkehr naht",
+      "primary_metric": "command_accuracy"
     }
   ]
 }

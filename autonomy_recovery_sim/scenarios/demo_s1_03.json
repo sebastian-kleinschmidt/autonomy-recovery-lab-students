@@ -6,8 +6,8 @@
     "dt_s": 0.1
   },
   "road": {
-    "map_file": "data/hannover_wilhelm_busch_strasse.geojson",
-    "context_file": "data/hannover_wilhelm_busch_context.json",
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
     "lane_width_m": 3.5,
     "center_marking": "dashed",
     "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
@@ -56,6 +56,12 @@
       ]
     ],
     "outcome": "liberated",
-    "budget_eur": 100.0
+    "budget_eur": 100.0,
+    "reason": "Der Lkw entlädt noch lange; erst den Gegenverkehr vorbeilassen, dann vorbeifahren.",
+    "hints": [
+      "Kamera: „crates are being carried into a restaurant, the cab is empty“ → der Lkw bleibt; am Ende muss vorbeigefahren werden.",
+      "`check_oncoming_traffic`: Konflikt mit dem Transporter → jetzt nicht ausscheren → `WAIT`.",
+      "Danach kein Konflikt mehr, gestrichelte Linie → `PASS_OBSTACLE` LEFT."
+    ]
   }
 }

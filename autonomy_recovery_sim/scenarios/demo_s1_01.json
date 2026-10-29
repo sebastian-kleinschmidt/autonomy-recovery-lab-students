@@ -6,8 +6,8 @@
     "dt_s": 0.1
   },
   "road": {
-    "map_file": "data/hannover_wilhelm_busch_strasse.geojson",
-    "context_file": "data/hannover_wilhelm_busch_context.json",
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
     "lane_width_m": 3.5,
     "center_marking": "dashed",
     "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
@@ -66,6 +66,12 @@
       ]
     ],
     "outcome": "liberated",
-    "budget_eur": 100
+    "budget_eur": 100,
+    "reason": "Erst den vorübergehenden Personenkonflikt abwarten, dann den bleibenden Pkw regelkonform umfahren.",
+    "hints": [
+      "Kamera: Pkw mit Warnblinker, niemand am Steuer → er bleibt; am Ende muss vorbeigefahren werden.",
+      "`check_vulnerable_road_users`: Personengruppe im Überholkorridor; Kamera: „orientiert sich zum Gehweg“ → sie geht gleich → `WAIT`.",
+      "Danach Korridor frei, gestrichelte Linie, kein Gegenverkehr → `PASS_OBSTACLE` LEFT."
+    ]
   }
 }

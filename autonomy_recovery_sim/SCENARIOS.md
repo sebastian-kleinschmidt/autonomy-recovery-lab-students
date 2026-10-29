@@ -10,9 +10,9 @@ folgen erst nach dem Agent-Freeze. Ablauf: [README](../README.md#ablauf-eines-sp
 |---|---:|---:|
 | Bootcamp | 3 | 3 |
 | Sprint 1 | 9 | 12 |
-| Sprint 2 | 16 | 28 |
-| Sprint 3 | 28 | 56 |
-| Sprint 4 | 25 | 81 |
+| Sprint 2 | 17 | 29 |
+| Sprint 3 | 28 | 57 |
+| Sprint 4 | 26 | 83 |
 
 `sprint*.txt` lädt alle bis dahin freigegebenen Fälle; nur die neuen mit
 `batch --release sprintN --nur-neu`. Die Familien gehören direkt zu den Sprint-Sets.
@@ -41,6 +41,9 @@ folgen erst nach dem Agent-Freeze. Ablauf: [README](../README.md#ablauf-eines-sp
 | [hannover_passagier_absetzen](scenarios/hannover_passagier_absetzen.json) | sprint2 |
 | [hannover_ziel_gesperrt](scenarios/hannover_ziel_gesperrt.json) | sprint2 |
 | [hannover_leitstelle_offline](scenarios/hannover_leitstelle_offline.json) | sprint2 |
+| [demo_s1_01](scenarios/demo_s1_01.json) | sprint2 |
+| [demo_s1_02](scenarios/demo_s1_02.json) | sprint2 |
+| [demo_s1_03](scenarios/demo_s1_03.json) | sprint2 |
 
 ## Szenariofamilien F1 bis F6: Lagen, die sich ändern
 

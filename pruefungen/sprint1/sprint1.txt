@@ -1,7 +1,0 @@
-# Demo-Prüfungen Sprint 1; unveränderten Agenten verwenden.
-../../autonomy_recovery_sim/scenarios/hannover_fussgaengergruppe.json
-../../autonomy_recovery_sim/scenarios/hannover_umzug.json
-../../autonomy_recovery_sim/scenarios/hannover_radverkehr.json
-demo_s1_01.json
-demo_s1_02.json
-demo_s1_03.json

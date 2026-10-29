@@ -6,8 +6,8 @@
     "dt_s": 0.1
   },
   "road": {
-    "map_file": "data/hannover_wilhelm_busch_strasse.geojson",
-    "context_file": "data/hannover_wilhelm_busch_context.json",
+    "map_file": "../data/hannover_wilhelm_busch_strasse.geojson",
+    "context_file": "../data/hannover_wilhelm_busch_context.json",
     "lane_width_m": 3.5,
     "center_marking": "solid",
     "assumption_note": "Spurbreite und Markierung sind Szenarioannahmen; OSM enthält sie hier nicht."
@@ -48,6 +48,12 @@
     ],
     "outcome": "safe_stopped",
     "budget_eur": 200,
+    "reason": "Durchgezogene Linie, kein freigegebener Seitenstreifen und Leitstelle offline: am Rand sicher abschließen. Kurzes Warten ist zulässig, hilft aber nicht: Niemand sitzt am Steuer.",
+    "hints": [
+      "Kamera: Pkw mit Warnblinker, niemand am Steuer → Warten hilft nicht.",
+      "`get_blocker`: `center_marking` `solid`, `shoulder_passing_allowed` false → Vorbeifahren verboten.",
+      "`get_mission_context`: Leitstelle nicht erreichbar, kein Hub → Fahrt sicher beenden: `PULL_OVER`, dann `SAFE_STOP`."
+    ],
     "commands": [
       "PULL_OVER",
       "WAIT"

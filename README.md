@@ -191,16 +191,16 @@ Mit Pause und Einzelschritt seht ihr, welche Beobachtung zu welcher Entscheidung
 
 ### 4. Im Sprint Review das Prüfungsset live vorführen
 
-Vor dem Review friert ihr beide Agenten ein und haltet den Commit fest. Danach kommen
-unbekannte Prüfungsfälle ins Repository; ihr holt sie und führt sie mit beiden Agenten
-**ohne Änderung** vor:
+Vor dem Review friert ihr beide Agenten ein und haltet den Commit fest. Das Review-Set
+kommt mit der nächsten Ausgabe: drei bekannte Fälle, dann drei neue. Ihr holt es und führt
+es mit beiden Agenten **ohne Änderung** vor:
 
 ```bash
 git pull --no-rebase --no-edit upstream main
 python3 -m autonomy_recovery_sim.live \
-  --batch pruefungen/sprint1/sprint1.txt --agent mein_agent:decide --hide-reference
+  --batch autonomy_recovery_sim/scenario_sets/demo_sprint1.txt --agent mein_agent:decide --hide-reference
 python3 -m autonomy_recovery_sim.live \
-  --batch pruefungen/sprint1/sprint1.txt --agent mein_llm_agent:decide --hide-reference
+  --batch autonomy_recovery_sim/scenario_sets/demo_sprint1.txt --agent mein_llm_agent:decide --hide-reference
 ```
 
 Etwa zehn Minuten pro Team. Dabei gilt:

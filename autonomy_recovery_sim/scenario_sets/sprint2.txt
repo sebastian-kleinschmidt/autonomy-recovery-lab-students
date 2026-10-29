@@ -19,6 +19,9 @@
 ../scenarios/hannover_passagier_absetzen.json
 ../scenarios/hannover_ziel_gesperrt.json
 ../scenarios/hannover_leitstelle_offline.json
+../scenarios/demo_s1_01.json
+../scenarios/demo_s1_02.json
+../scenarios/demo_s1_03.json
 ../families/f1_muellabfuhr.json
 ../families/f2_fahrer_weg.json
 ../families/f3_pkw_kommt.json
