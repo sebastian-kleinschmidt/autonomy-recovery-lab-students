@@ -138,7 +138,7 @@ Ergebnis (JSON in `autonomy_recovery_sim/scenarios/`).
 
 **Szenariofamilie.** Eine Lage (F1 bis F6) in drei Varianten: sechs Einstiege ab Sprint 2, alle Varianten ab Sprint 3.
 `sprint2.txt` enthält 29 Fälle, darunter sechs Familieneinstiege;
-`sprint3.txt` enthält 57 Fälle, darunter alle 18 Familienvarianten.
+`sprint3.txt` enthält 59 Fälle, darunter alle 18 Familienvarianten.
 Weitere Seeds prüfen Robustheit bei veränderten konkreten Bedingungen.
 
 **Unfallabwicklung.** Was nach einem eigenen Aufprall zu tun ist, auch ohne eigene Schuld:

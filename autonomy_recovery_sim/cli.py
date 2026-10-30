@@ -50,7 +50,7 @@ def _single_main(argv: list[str] | None) -> int:
 
 
 # Je Ausgabe alle bis dahin freigegebenen Faelle (kumulativ).
-RELEASE_SETS = {release: f"{release}.txt" for release in ("bootcamp", "sprint1", "sprint2", "sprint3", "sprint4")}
+RELEASE_SETS = {release: f"{release}.txt" for release in ("bootcamp", "sprint1", "sprint2", "sprint3", "sprint4", "final")}
 
 
 def _earlier_cases(package: Path, release: str) -> frozenset[Path]:

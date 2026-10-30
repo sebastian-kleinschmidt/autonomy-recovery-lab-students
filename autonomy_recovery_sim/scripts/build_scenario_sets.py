@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "scenario_catalog.json"
 SET_DIR = ROOT / "scenario_sets"
-FILENAMES = {release: f"{release}.txt" for release in ("bootcamp", "sprint1", "sprint2", "sprint3", "sprint4")}
+FILENAMES = {release: f"{release}.txt" for release in ("bootcamp", "sprint1", "sprint2", "sprint3", "sprint4", "final")}
 
 
 def load_catalog() -> tuple[list[str], list[dict[str, object]]]:

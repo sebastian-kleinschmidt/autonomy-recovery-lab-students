@@ -1,8 +1,9 @@
 # Szenarienkatalog und Sprintfreigaben
 
 **Aktuelle Ausgabe: sprint2.** Neue Übungsfälle kommen gesammelt zum Sprintbeginn;
-bisherige Fälle bleiben für Regressionstests erhalten. Zusätzliche Demo-Prüfungen
-folgen erst nach dem Agent-Freeze. Ablauf: [README](../README.md#ablauf-eines-sprints).
+bisherige Fälle bleiben für Regressionstests erhalten. Die Demo-Fälle eines Reviews
+kommen mit der nächsten Ausgabe, dazu `demo_sprintN.txt` für das Review.
+Ablauf: [README](../README.md#ablauf-eines-sprints).
 
 ## Freigaben zum Sprintbeginn
 
@@ -11,8 +12,9 @@ folgen erst nach dem Agent-Freeze. Ablauf: [README](../README.md#ablauf-eines-sp
 | Bootcamp | 3 | 3 |
 | Sprint 1 | 9 | 12 |
 | Sprint 2 | 17 | 29 |
-| Sprint 3 | 28 | 57 |
-| Sprint 4 | 26 | 83 |
+| Sprint 3 | 30 | 59 |
+| Sprint 4 | 28 | 87 |
+| Abschluss | 2 | 89 |
 
 `sprint*.txt` lädt alle bis dahin freigegebenen Fälle; nur die neuen mit
 `batch --release sprintN --nur-neu`. Die Familien gehören direkt zu den Sprint-Sets.
